@@ -43,8 +43,8 @@ body::before {
 }
 
 h1, h2, h3, blockquote {
-  font-family: 'Playfair', serif;
-  font-weight: 700;
+  font-family: 'Spectral';
+  font-weight: 650;
   font-style: normal;
   margin-bottom: 1rem;
   color: var(--ink);
@@ -101,7 +101,6 @@ li {
 .section-header {
   font-size: 1.35rem;
   color: var(--ink);
-  letter-spacing: 0.08em;
   margin-bottom: 1.5rem;
 }
 
@@ -115,6 +114,21 @@ li {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+}
+
+.papers {
+  position: relative;
+}
+
+.papers-margin-note {
+  position: absolute;
+  top: 25rem;
+  left: calc(100% + 24px);
+  width: 200px;
+  font-size: 0.8rem;
+  color: var(--muted-ink);
+  line-height: 1.4;
+  font-style: italic;
 }
 
 .entry-title {
@@ -132,6 +146,11 @@ li {
   font-size: 0.95rem;
   color: var(--muted-ink);
   font-style: italic;
+}
+
+.entry-authors strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .entry-venue {
@@ -231,16 +250,32 @@ blockquote p {
   border-radius: 0;
   box-shadow: 0 18px 35px rgba(32, 34, 41, 0.18);
   overflow: hidden;
+  position: relative;
 }
 
 .intro .margin-note img {
   width: 100%;
   display: block;
+  transition: opacity 0.3s ease;
 }
 
-.intro .margin-note figure:hover img {
-  content: url('yeliou.jpg');
-  transform: scale(1.05);
+.intro .margin-note figure::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('yeliou.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.intro .margin-note figure:hover::after {
+  opacity: 1;
 }
 
 
@@ -275,6 +310,10 @@ a:hover {
   .intro .margin-note figure {
     box-shadow: none;
     border: none;
+  }
+
+  .papers-margin-note {
+    display: none;
   }
 }
 
