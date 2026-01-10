@@ -50,10 +50,6 @@ h1, h2, h3, blockquote {
   color: var(--ink);
 }
 
-canvas {
-  display: none;
-}
-
 main {
   position: relative;
   z-index: 1;
@@ -139,6 +135,7 @@ li {
 .entry-title a {
   color: var(--ink);
   text-decoration: underline;
+  word-break: break-word;
 }
 
 .entry-authors {
@@ -172,6 +169,13 @@ li {
   gap: 1rem;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.entry-links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0;
 }
 
 .entry-links a::before {
@@ -281,11 +285,16 @@ blockquote p {
 
 a {
   text-decoration: none; 
-  color: var(--accent-dark); 
+  color: var(--accent-dark);
+  word-break: break-word;
 }
 
 a:hover {
   color: #000;
+}
+
+a:active {
+  opacity: 0.8;
 }
 
 .contact-inline {
@@ -294,6 +303,11 @@ a:hover {
 }
 
 @media screen and (max-width: 1100px) {
+  main {
+    margin-left: clamp(20px, 8vw, 60px);
+    padding: 0 24px 120px;
+  }
+
   .intro .margin-note {
     position: static;
     width: 100%;
@@ -322,20 +336,23 @@ a:hover {
     font-size: 14px; 
     padding-right: 0;
   }
-  header,
+
+  main {
+    margin-left: 0;
+    padding: 0 20px 80px;
+    max-width: 100%;
+  }
+
   section,
   footer {
-    padding: 1.5rem;
+    padding: 1.25rem 1.25rem;
+    max-width: 100%;
   }
-  .project-card {
-    grid-template-columns: 1fr;
-  }
-  .project-image {
-    order: -1;
-  }
+
   blockquote p {
     font-size: 1.75rem;
   }
+
   .intro .margin-note {
     position: static;
     width: 100%;
@@ -350,20 +367,75 @@ a:hover {
   .intro .margin-note figure {
     box-shadow: none;
   }
+
+  .section-header {
+    font-size: 1.2rem;
+  }
+
+  .entry-title {
+    font-size: 1.1rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
   main {
-    padding: 60px 20px;
+    padding: 0 16px 60px;
   }
+
+  section,
+  footer {
+    padding: 1rem;
+  }
+
   header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.2;
   }
+
+  .section-header {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
   h2, h3 {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
+
+  .entry-title {
+    font-size: 1rem;
+  }
+
+  .entry-authors {
+    font-size: 0.9rem;
+  }
+
+  .entry-venue {
+    font-size: 0.8rem;
+  }
+
+  .entry-links {
+    gap: 0.75rem;
+  }
+
+  .entry-links a {
+    font-size: 0.85rem;
+  }
+
+  .intro .margin-note img {
+    max-width: 200px;
+  }
+
+  blockquote p {
+    font-size: 1.5rem;
+    padding-left: 1rem;
+  }
+
   .project-link {
     display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 }
