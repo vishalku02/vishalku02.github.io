@@ -2,7 +2,7 @@
 
 :root {
   --spacing: 32px;
-  --paper: #f3f0ea;
+  --paper: #fffff8;
   --ink: #0d0e12;
   --muted-ink: #3c3f49;
   --accent: #8cbdb3;
@@ -17,7 +17,7 @@
 body {
   margin: 0;
   font-family: 'Lora', serif;
-  background: #f3f0ea;
+  background: #fffff8;
   color: var(--ink);
   min-height: 100vh;
   padding: 0 32px 0 0;
@@ -64,7 +64,7 @@ main {
 
 section,
 footer {
-  background: rgba(243, 240, 234, 0.92);
+  background: rgba(255, 255, 248, 0.92);
   border-left: 3px solid var(--accent);
   border-radius: 4px;
   box-shadow: 0 10px 20px rgba(27, 28, 35, 0.08);
