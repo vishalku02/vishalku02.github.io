@@ -20,9 +20,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   min-height: 100vh;
-  padding: 0 32px 0 0;
+  padding: 0;
   position: relative;
-  overflow-x: hidden;
 }
 
 /* Paper texture overlay: subtle grain so the page feels like paper */
@@ -63,13 +62,36 @@ h1, h2, h3, blockquote {
 
 main {
   position: relative;
-  max-width: 960px;
-  margin-left: clamp(60px, 14vw, 180px);
-  margin-right: auto;
-  padding: 0 32px 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 32px 120px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  column-gap: 2rem;
+  row-gap: 0.25rem;
+  align-items: start;
+}
+
+main > section,
+main > footer {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.intro > .margin-note,
+.papers > .papers-margin-note {
+  position: absolute;
+  left: calc(100% + 2rem);
+  width: 220px;
+  margin: 0;
+}
+
+.intro > .margin-note {
+  top: 0;
+}
+
+.papers > .papers-margin-note {
+  top: 26rem;
 }
 
 section,
@@ -80,11 +102,11 @@ footer {
   border-radius: 4px;
   box-shadow: 0 10px 20px rgba(27, 28, 35, 0.08);
   padding: 1rem 1.75rem;
-  max-width: 720px;
   margin: 0;
 }
 
 header h1 {
+  margin-top: 0;
   font-size: 2.75rem;
   margin-bottom: 0.5rem;
 }
@@ -123,19 +145,12 @@ li {
   gap: 1rem;
 }
 
-.papers {
-  position: relative;
-}
-
 .papers-margin-note {
-  position: absolute;
-  top: 25rem;
-  left: calc(100% + 24px);
-  width: 200px;
   font-size: 0.8rem;
   color: var(--muted-ink);
   line-height: 1.4;
   font-style: italic;
+  padding-top: 0.5rem;
 }
 
 .entry-title {
@@ -242,26 +257,15 @@ blockquote p {
 }
 
 .margin-note {
+  margin: 0;
   font-size: 0.85rem;
   color: var(--muted-ink);
   line-height: 1.4;
-}
-
-.intro {
-  position: relative;
-}
-
-.intro .margin-note {
-  position: absolute;
-  top: 1rem;
-  left: calc(100% + 24px);
-  width: 240px;
-  margin: 0;
   text-align: left;
   z-index: 3;
 }
 
-.intro .margin-note figure {
+.margin-note figure {
   margin: 0;
   border-radius: 0;
   box-shadow: 0 18px 35px rgba(32, 34, 41, 0.18);
@@ -270,13 +274,13 @@ blockquote p {
   z-index: 3;
 }
 
-.intro .margin-note img {
+.margin-note img {
   width: 100%;
   display: block;
   transition: opacity 0.3s ease;
 }
 
-.intro .margin-note figure::after {
+.margin-note figure::after {
   content: '';
   position: absolute;
   top: 0;
@@ -291,7 +295,7 @@ blockquote p {
   pointer-events: none;
 }
 
-.intro .margin-note figure:hover::after {
+.margin-note figure:hover::after {
   opacity: 1;
 }
 
@@ -315,98 +319,59 @@ a:active {
   font-size: 0.95rem;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 900px) {
   main {
-    margin-left: clamp(20px, 8vw, 60px);
-    padding: 0 24px 120px;
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
   }
 
-  .intro .margin-note {
+  main > section,
+  main > footer {
+    grid-column: 1;
+  }
+
+  .intro > .margin-note {
     position: static;
     width: 100%;
-    margin-top: 1rem;
     text-align: center;
+    margin: 0 0 1rem;
   }
 
-  .intro .margin-note img {
-    max-width: 280px;
+  .margin-note img {
+    max-width: 220px;
     margin: 0 auto;
     display: block;
   }
 
-  .intro .margin-note figure {
+  .margin-note figure {
     box-shadow: none;
-    border: none;
   }
 
-  .papers-margin-note {
+  .papers > .papers-margin-note {
     display: none;
   }
 }
 
-@media screen and (max-width: 768px) {
-  body {
-    font-size: 14px; 
-    padding-right: 0;
-  }
+@media screen and (max-width: 560px) {
+  body { font-size: 14px; }
 
   main {
-    margin-left: 0;
-    padding: 0 20px 80px;
-    max-width: 100%;
+    padding: 1rem 20px 80px;
   }
 
   section,
   footer {
-    padding: 1.25rem 1.25rem;
-    max-width: 100%;
-  }
-
-  blockquote p {
-    font-size: 1.75rem;
-  }
-
-  .intro .margin-note {
-    position: static;
-    width: 100%;
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  .intro .margin-note img {
-    max-width: 240px;
-  }
-
-  .intro .margin-note figure {
-    box-shadow: none;
-  }
-
-  .section-header {
-    font-size: 1.2rem;
-  }
-
-  .entry-title {
-    font-size: 1.1rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
-  main {
-    padding: 0 16px 60px;
-  }
-
-  section,
-  footer {
-    padding: 1rem;
+    padding: 1.25rem;
   }
 
   header h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
     line-height: 1.2;
+  }
+
+  blockquote p {
+    font-size: 1.5rem;
+    padding-left: 1rem;
   }
 
   .section-header {
@@ -414,37 +379,8 @@ a:active {
     margin-bottom: 1rem;
   }
 
-  h2, h3 {
-    font-size: 1.15rem;
-  }
-
   .entry-title {
-    font-size: 1rem;
-  }
-
-  .entry-authors {
-    font-size: 0.9rem;
-  }
-
-  .entry-venue {
-    font-size: 0.8rem;
-  }
-
-  .entry-links {
-    gap: 0.75rem;
-  }
-
-  .entry-links a {
-    font-size: 0.85rem;
-  }
-
-  .intro .margin-note img {
-    max-width: 200px;
-  }
-
-  blockquote p {
-    font-size: 1.5rem;
-    padding-left: 1rem;
+    font-size: 1.05rem;
   }
 
   .project-link {
