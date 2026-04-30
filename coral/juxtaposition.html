@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When the heat rises — coral & you</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Spectral:wght@600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --caribbean: #00C4CC;
+    --ocean: #0077B6;
+    --abyss: #03045E;
+    --foam: #90E0EF;
+    --living-coral: #FF6F61;
+    --reef-red: #E63946;
+    --soft-coral: #F4A261;
+    --heat: #FFD166;
+    --stress: #EF476F;
+    --bleached: #F5F1E8;
+    --violet: #6A4C93;
+    --gray: #8D99AE;
+    --panic: #D62828;
+    --ink: #1a1a1a;
+    --paper: #faf8f3;
+    --temp: 0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Lora", Georgia, serif;
+    margin: 0;
+    padding: 32px 20px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 24px; }
+  h1 {
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 30px;
+    margin: 0 0 6px;
+  }
+  .subtitle { color: #555; font-style: italic; font-size: 15px; }
+
+  .controls {
+    background: white;
+    border-radius: 16px;
+    padding: 22px 28px;
+    box-shadow: 0 4px 18px rgba(3, 4, 94, 0.08);
+    border: 1px solid #ece8df;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .thermometer {
+    position: relative;
+    width: 60px;
+    height: 180px;
+  }
+  .therm-tube {
+    position: absolute;
+    left: 22px;
+    top: 8px;
+    width: 16px;
+    height: 140px;
+    background: #eee;
+    border: 2px solid #444;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .therm-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, var(--heat) 0%, var(--reef-red) 100%);
+    height: calc(var(--temp) * 1%);
+    transition: height 0.15s ease, background 0.3s ease;
+  }
+  .therm-bulb {
+    position: absolute;
+    left: 12px;
+    bottom: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--reef-red);
+    border: 2px solid #444;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+  .therm-ticks {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    height: 140px;
+    width: 22px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #888;
+    font-family: monospace;
+  }
+  .therm-ticks span { text-align: right; padding-right: 2px; }
+
+  .scrubber-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .scrubber-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+    font-family: "Caveat", cursive;
+    font-size: 16px;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(to right, var(--caribbean) 0%, var(--heat) 50%, var(--reef-red) 100%);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--ink);
+    cursor: grab;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  input[type=range]::-webkit-slider-thumb:active { cursor: grabbing; }
+  input[type=range]::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--ink);
+    cursor: grab;
+  }
+  .readout {
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    color: var(--ink);
+    transition: color 0.3s ease;
+  }
+
+  .scenes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .scene {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(3, 4, 94, 0.08);
+    border: 1px solid #ece8df;
+    overflow: hidden;
+  }
+  .scene h2 {
+    font-family: "Spectral", serif;
+    font-size: 18px;
+    margin: 0 0 4px;
+  }
+  .scene .scene-sub {
+    color: #666;
+    font-size: 13px;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .scene svg { width: 100%; height: auto; display: block; border-radius: 10px; }
+
+  /* coral scene */
+  .ocean-bg {
+    fill: #cdeef2;
+    transition: fill 0.4s ease;
+  }
+  body[data-temp-tier="warm"] .ocean-bg { fill: #b8d8de; }
+  body[data-temp-tier="hot"] .ocean-bg { fill: #c9bfb0; }
+  body[data-temp-tier="danger"] .ocean-bg { fill: #d6c8b3; }
+
+  .coral-body { transition: fill 0.4s ease; }
+  .algae-dot {
+    transition: opacity 0.3s ease, transform 0.6s ease;
+    transform-origin: center;
+  }
+  .fish { transition: opacity 0.4s ease, transform 0.6s ease; }
+
+  /* kid scene */
+  .kid-bg {
+    fill: #fff4e6;
+    transition: fill 0.4s ease;
+  }
+  body[data-temp-tier="warm"] .kid-bg { fill: #f5ece0; }
+  body[data-temp-tier="hot"] .kid-bg { fill: #e8e2d8; }
+  body[data-temp-tier="danger"] .kid-bg { fill: #d8d4cd; }
+
+  .friend { transition: opacity 0.5s ease, transform 0.7s ease; }
+  .friendship-line { transition: stroke-dashoffset 0.5s ease, opacity 0.4s ease; }
+  .homework { transition: opacity 0.5s ease, transform 0.7s ease; }
+  .learner-figure { transition: filter 0.5s ease; }
+
+  .caption {
+    margin-top: 24px;
+    padding: 20px 26px;
+    background: linear-gradient(135deg, #fff6ec 0%, #ffe8e0 100%);
+    border-left: 4px solid var(--living-coral);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+  body[data-temp-tier="hot"] .caption,
+  body[data-temp-tier="danger"] .caption {
+    background: linear-gradient(135deg, #f5ebe0 0%, #e8dfd5 100%);
+    border-left-color: var(--gray);
+  }
+  .caption .coral-line { color: var(--reef-red); font-weight: 700; }
+  .caption .kid-line { color: var(--violet); font-weight: 700; }
+  .caption-text { margin-bottom: 6px; }
+
+  .label-tag {
+    font-family: "Caveat", cursive;
+    font-size: 16px;
+    fill: #555;
+  }
+
+  .progress-nav {
+    max-width: 460px;
+    margin: 0 auto 16px;
+    padding: 0 20px;
+    width: 100%;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .progress a, .progress .step {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8e2d2;
+    color: #999;
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .progress a:hover { background: #d4cdbf; transform: scale(1.05); }
+  .progress .step.done, .progress a.done {
+    background: var(--ocean);
+    color: white;
+  }
+  .progress .step.active {
+    background: var(--living-coral);
+    color: white;
+    border-color: rgba(255, 111, 97, 0.25);
+    transform: scale(1.15);
+    box-shadow: 0 2px 10px rgba(255, 111, 97, 0.35);
+  }
+  .progress .line {
+    flex: 1;
+    height: 2px;
+    background: #e8e2d2;
+    margin: 0 4px;
+  }
+  .progress .line.done { background: var(--ocean); }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Caveat", cursive;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+  .progress-labels span { width: 28px; text-align: center; }
+  .progress-labels .lbl-active { color: var(--reef-red); font-weight: 700; }
+
+  .continue-row {
+    margin-top: 28px;
+    text-align: center;
+  }
+  .continue-hint {
+    font-family: "Caveat", cursive;
+    font-size: 18px;
+    color: #888;
+    margin-bottom: 14px;
+    transition: opacity 0.4s ease;
+  }
+  .continue-hint.hidden { opacity: 0; }
+  .continue-btn {
+    background: var(--ocean);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.3s ease, box-shadow 0.2s ease;
+  }
+  .continue-btn.unlocked {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .continue-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 119, 182, 0.4); }
+</style>
+</head>
+<body data-temp-tier="cool">
+<div class="wrap">
+
+<nav class="progress-nav" aria-label="explorable progress">
+  <div class="progress">
+    <a href="intro.html" class="done" aria-label="step 1: start">1</a>
+    <div class="line done"></div>
+    <div class="step active" aria-current="step">2</div>
+    <div class="line"></div>
+    <div class="step">3</div>
+    <div class="line"></div>
+    <div class="step">4</div>
+  </div>
+  <div class="progress-labels">
+    <span>start</span>
+    <span class="lbl-active">explore</span>
+    <span>reflect</span>
+    <span>act</span>
+  </div>
+</nav>
+
+<header>
+  <h1>When the heat rises — to a coral, and to you</h1>
+  <div class="subtitle">Drag the thermometer. Watch both sides at the same time.</div>
+</header>
+
+<div class="controls">
+  <div class="thermometer">
+    <div class="therm-ticks">
+      <span>cool</span>
+      <span>warm</span>
+      <span>hot</span>
+      <span>!!</span>
+    </div>
+    <div class="therm-tube"><div class="therm-fill"></div></div>
+    <div class="therm-bulb"></div>
+  </div>
+  <div class="scrubber-wrap">
+    <div class="scrubber-labels">
+      <span>← a normal day</span>
+      <span>everything is too much →</span>
+    </div>
+    <input type="range" id="scrubber" min="0" max="100" value="0">
+    <div class="readout" id="readout">all is well</div>
+  </div>
+</div>
+
+<div class="scenes">
+
+  <!-- ============ CORAL SCENE ============ -->
+  <div class="scene">
+    <h2 style="color: var(--ocean)">In the reef</h2>
+    <div class="scene-sub" id="coral-sub">Tiny algae called <em>zooxanthellae</em> (zoh-zan-THELL-ee) live inside the coral and give it color.</div>
+    <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="oceanGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#90E0EF"/>
+          <stop offset="100%" stop-color="#0077B6"/>
+        </linearGradient>
+      </defs>
+
+      <rect class="ocean-bg" x="0" y="0" width="500" height="320" rx="10"/>
+
+      <!-- light rays -->
+      <g opacity="0.25">
+        <path d="M 80 0 L 130 320 L 60 320 Z" fill="white"/>
+        <path d="M 280 0 L 320 320 L 240 320 Z" fill="white"/>
+        <path d="M 420 0 L 440 320 L 380 320 Z" fill="white"/>
+      </g>
+
+      <!-- sand bed -->
+      <ellipse cx="250" cy="320" rx="280" ry="40" fill="#e8d9b8"/>
+
+      <!-- fish (vanish as it gets hot) -->
+      <g class="fish" id="fish1">
+        <ellipse cx="60" cy="80" rx="14" ry="7" fill="#FFD166"/>
+        <polygon points="46,80 38,74 38,86" fill="#FFD166"/>
+        <circle cx="64" cy="78" r="1.5" fill="#222"/>
+      </g>
+      <g class="fish" id="fish2">
+        <ellipse cx="430" cy="120" rx="12" ry="6" fill="#F4A261"/>
+        <polygon points="442,120 450,114 450,126" fill="#F4A261"/>
+        <circle cx="426" cy="118" r="1.5" fill="#222"/>
+      </g>
+
+      <!-- coral structure: branching -->
+      <g id="coral">
+        <!-- base -->
+        <ellipse cx="250" cy="290" rx="120" ry="22" fill="#c44d3f" class="coral-body" id="coral-base"/>
+        <!-- branches -->
+        <path d="M 180 290 Q 170 230 165 180 Q 160 140 175 110 Q 195 90 200 130 Q 205 170 215 200 Q 225 240 230 290 Z"
+              fill="#FF6F61" class="coral-body"/>
+        <path d="M 230 290 Q 235 240 245 200 Q 255 160 270 140 Q 290 130 285 175 Q 280 220 280 290 Z"
+              fill="#FF8A7E" class="coral-body"/>
+        <path d="M 280 290 Q 285 240 300 200 Q 315 155 335 135 Q 355 130 345 175 Q 335 230 330 290 Z"
+              fill="#FF6F61" class="coral-body"/>
+        <path d="M 320 290 Q 330 250 345 220 Q 365 195 380 200 Q 390 220 375 250 Q 360 280 360 290 Z"
+              fill="#E63946" class="coral-body"/>
+
+        <!-- algae dots inside coral -->
+        <g id="algae-dots">
+          <circle class="algae-dot" cx="180" cy="200" r="3" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="195" cy="170" r="2.5" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="210" cy="220" r="3" fill="#0fbcc4"/>
+          <circle class="algae-dot" cx="240" cy="180" r="2.5" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="255" cy="220" r="3" fill="#0fbcc4"/>
+          <circle class="algae-dot" cx="275" cy="155" r="2.5" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="290" cy="200" r="3" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="310" cy="170" r="2.5" fill="#0fbcc4"/>
+          <circle class="algae-dot" cx="325" cy="225" r="3" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="345" cy="185" r="2.5" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="360" cy="240" r="3" fill="#0fbcc4"/>
+          <circle class="algae-dot" cx="200" cy="240" r="2.5" fill="#00C4CC"/>
+          <circle class="algae-dot" cx="265" cy="265" r="2.5" fill="#0fbcc4"/>
+          <circle class="algae-dot" cx="305" cy="255" r="2.5" fill="#00C4CC"/>
+        </g>
+      </g>
+
+      <text x="250" y="22" class="label-tag" text-anchor="middle">a coral, full of zooxanthellae</text>
+    </svg>
+  </div>
+
+  <!-- ============ KID SCENE ============ -->
+  <div class="scene">
+    <h2 style="color: var(--violet)">In your life</h2>
+    <div class="scene-sub" id="kid-sub">Your best friend gives your days color.</div>
+    <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+      <rect class="kid-bg" x="0" y="0" width="500" height="320" rx="10"/>
+
+      <!-- floor -->
+      <line x1="0" y1="285" x2="500" y2="285" stroke="#d4c8b8" stroke-width="2"/>
+
+      <!-- homework papers (appear as it gets hot) -->
+      <g class="homework" id="hw1">
+        <rect x="40" y="240" width="50" height="60" rx="2" fill="white" stroke="#444" stroke-width="1.5" transform="rotate(-12 65 270)"/>
+        <line x1="48" y1="252" x2="82" y2="252" stroke="#888" stroke-width="1" transform="rotate(-12 65 270)"/>
+        <line x1="48" y1="260" x2="82" y2="260" stroke="#888" stroke-width="1" transform="rotate(-12 65 270)"/>
+        <line x1="48" y1="268" x2="78" y2="268" stroke="#888" stroke-width="1" transform="rotate(-12 65 270)"/>
+        <text x="65" y="248" font-size="8" font-family="monospace" fill="var(--reef-red)" text-anchor="middle" transform="rotate(-12 65 270)">MATH</text>
+      </g>
+      <g class="homework" id="hw2">
+        <rect x="380" y="245" width="50" height="60" rx="2" fill="white" stroke="#444" stroke-width="1.5" transform="rotate(8 405 275)"/>
+        <line x1="388" y1="258" x2="422" y2="258" stroke="#888" stroke-width="1" transform="rotate(8 405 275)"/>
+        <line x1="388" y1="266" x2="422" y2="266" stroke="#888" stroke-width="1" transform="rotate(8 405 275)"/>
+        <line x1="388" y1="274" x2="418" y2="274" stroke="#888" stroke-width="1" transform="rotate(8 405 275)"/>
+        <text x="405" y="254" font-size="8" font-family="monospace" fill="var(--reef-red)" text-anchor="middle" transform="rotate(8 405 275)">ESSAY</text>
+      </g>
+      <g class="homework" id="hw3">
+        <rect x="155" y="255" width="48" height="58" rx="2" fill="white" stroke="#444" stroke-width="1.5" transform="rotate(-5 179 284)"/>
+        <line x1="162" y1="268" x2="196" y2="268" stroke="#888" stroke-width="1" transform="rotate(-5 179 284)"/>
+        <line x1="162" y1="276" x2="196" y2="276" stroke="#888" stroke-width="1" transform="rotate(-5 179 284)"/>
+        <text x="179" y="264" font-size="8" font-family="monospace" fill="var(--reef-red)" text-anchor="middle" transform="rotate(-5 179 284)">SCIENCE</text>
+      </g>
+      <g class="homework" id="hw4">
+        <rect x="295" y="250" width="48" height="58" rx="2" fill="white" stroke="#444" stroke-width="1.5" transform="rotate(15 319 279)"/>
+        <line x1="302" y1="263" x2="336" y2="263" stroke="#888" stroke-width="1" transform="rotate(15 319 279)"/>
+        <line x1="302" y1="271" x2="336" y2="271" stroke="#888" stroke-width="1" transform="rotate(15 319 279)"/>
+        <text x="319" y="259" font-size="8" font-family="monospace" fill="var(--reef-red)" text-anchor="middle" transform="rotate(15 319 279)">QUIZ</text>
+      </g>
+
+      <!-- friendship line / heart between them -->
+      <g class="friendship-line" id="friendship">
+        <path d="M 200 165 Q 250 145 300 165" stroke="#EF476F" stroke-width="2.5" fill="none" stroke-dasharray="4,3"/>
+        <text x="250" y="138" font-size="20" text-anchor="middle">♥</text>
+      </g>
+
+      <!-- learner figure (left) -->
+      <g class="learner-figure" id="learner">
+        <!-- body -->
+        <path d="M 175 285 L 175 215 Q 175 200 195 200 L 215 200 Q 235 200 235 215 L 235 285 Z" fill="#6A4C93"/>
+        <!-- head -->
+        <circle cx="205" cy="180" r="22" fill="#f4c5a3"/>
+        <!-- hair -->
+        <path d="M 184 175 Q 190 158 205 156 Q 220 158 226 175 Q 226 168 220 162 Q 205 152 190 162 Q 184 168 184 175 Z" fill="#3a2a1a"/>
+        <!-- eyes -->
+        <circle cx="198" cy="180" r="1.8" fill="#222"/>
+        <circle cx="212" cy="180" r="1.8" fill="#222"/>
+        <!-- smile (changes shape via JS) -->
+        <path id="learner-mouth" d="M 198 190 Q 205 195 212 190" stroke="#222" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <!-- best friend figure (right) -->
+      <g class="friend" id="friend">
+        <!-- body -->
+        <path d="M 265 285 L 265 215 Q 265 200 285 200 L 305 200 Q 325 200 325 215 L 325 285 Z" fill="#00C4CC"/>
+        <!-- head -->
+        <circle cx="295" cy="180" r="22" fill="#e6b89a"/>
+        <!-- hair -->
+        <path d="M 273 175 Q 278 156 295 154 Q 312 156 318 175 Q 318 168 312 160 Q 295 150 278 162 Q 273 168 273 175 Z" fill="#5a3a2a"/>
+        <!-- eyes -->
+        <circle cx="288" cy="180" r="1.8" fill="#222"/>
+        <circle cx="302" cy="180" r="1.8" fill="#222"/>
+        <!-- smile -->
+        <path d="M 288 190 Q 295 195 302 190" stroke="#222" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <text x="250" y="22" class="label-tag" text-anchor="middle">you and your best friend</text>
+    </svg>
+  </div>
+</div>
+
+<div class="caption">
+  <div class="caption-text">
+    <span class="coral-line">CORAL</span> · <span id="cap-coral">all is well — algae are home, the coral has its color</span>
+  </div>
+  <div class="caption-text">
+    <span class="kid-line">YOU</span> · <span id="cap-kid">all is well — your best friend is here, you've got your spunk</span>
+  </div>
+</div>
+
+<div class="continue-row">
+  <p class="continue-hint" id="continue-hint">scrub all the way up to <strong>!!</strong> to see what bleaching looks like</p>
+  <button class="continue-btn" id="continue-btn" onclick="window.location.href='ending.html'">→ now: what does this mean for your plate?</button>
+</div>
+
+</div>
+
+<script>
+  const scrubber = document.getElementById('scrubber');
+  const readout = document.getElementById('readout');
+  const capCoral = document.getElementById('cap-coral');
+  const capKid = document.getElementById('cap-kid');
+  const learnerMouth = document.getElementById('learner-mouth');
+  const root = document.documentElement;
+  const body = document.body;
+
+  const coralSub = document.getElementById('coral-sub');
+  const kidSub = document.getElementById('kid-sub');
+  const continueBtn = document.getElementById('continue-btn');
+  const continueHint = document.getElementById('continue-hint');
+
+  const algaeDots = document.querySelectorAll('.algae-dot');
+  const coralBodies = document.querySelectorAll('.coral-body');
+  const fishGroups = document.querySelectorAll('.fish');
+  const friendGroup = document.getElementById('friend');
+  const friendshipLine = document.getElementById('friendship');
+  const learner = document.getElementById('learner');
+  const homeworkGroups = document.querySelectorAll('.homework');
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerpColor(hexA, hexB, t) {
+    const a = hexA.match(/\w\w/g).map(h => parseInt(h, 16));
+    const b = hexB.match(/\w\w/g).map(h => parseInt(h, 16));
+    const r = Math.round(lerp(a[0], b[0], t));
+    const g = Math.round(lerp(a[1], b[1], t));
+    const bl = Math.round(lerp(a[2], b[2], t));
+    return `rgb(${r}, ${g}, ${bl})`;
+  }
+
+  function update() {
+    const t = scrubber.value / 100;
+    root.style.setProperty('--temp', scrubber.value);
+
+    let tier = 'cool';
+    let label = 'all is well';
+    let coralCap = 'all is well — algae are home, the coral has its color';
+    let kidCap = 'all is well — your best friend is here, you\'ve got your spunk';
+
+    if (t > 0.25 && t <= 0.55) {
+      tier = 'warm'; label = 'getting warmer...';
+      coralCap = 'the water is warming — the coral starts to feel it';
+      kidCap = 'homework is piling up — you\'re starting to feel it';
+    } else if (t > 0.55 && t <= 0.8) {
+      tier = 'hot'; label = 'too hot — coral is stressed';
+      coralCap = 'stressed — the algae are leaving, color is draining';
+      kidCap = 'you and your best friend are drifting apart — your spunk is fading';
+    } else if (t > 0.8) {
+      tier = 'danger'; label = 'bleached & burnt out';
+      coralCap = 'BLEACHED — algae gone, only the white skeleton is left';
+      kidCap = 'alone, color drained — you feel completely burnt out';
+    }
+    body.dataset.tempTier = tier;
+    readout.textContent = label;
+    capCoral.textContent = coralCap;
+    capKid.textContent = kidCap;
+
+    if (t > 0.3) {
+      coralSub.innerHTML = 'As sea temperatures rise, the <em>zooxanthellae</em> become toxic to the coral — so the coral pushes them out.';
+      kidSub.textContent = 'As you get more stressed out, you start to isolate yourself.';
+    } else {
+      coralSub.innerHTML = 'Tiny algae called <em>zooxanthellae</em> (zoh-zan-THELL-ee) live inside the coral and give it color.';
+      kidSub.textContent = 'Your best friend gives your days color.';
+    }
+
+    if (tier === 'danger') {
+      continueBtn.classList.add('unlocked');
+      continueHint.classList.add('hidden');
+    }
+
+    algaeDots.forEach((dot, i) => {
+      const driftDelay = i / algaeDots.length;
+      const localT = Math.max(0, Math.min(1, (t - 0.3) / 0.45));
+      dot.setAttribute('opacity', 1 - localT);
+      const drift = localT * (60 + i * 4);
+      const sway = Math.sin(i) * 30 * localT;
+      dot.setAttribute('transform', `translate(${sway}, ${-drift})`);
+    });
+
+    const bleachT = Math.max(0, Math.min(1, (t - 0.4) / 0.5));
+    const coralColors = [
+      ['#c44d3f', '#e8e2d2'],
+      ['#FF6F61', '#f0ead8'],
+      ['#FF8A7E', '#f5efde'],
+      ['#FF6F61', '#f0ead8'],
+      ['#E63946', '#e8e2d2'],
+    ];
+    coralBodies.forEach((el, i) => {
+      const pair = coralColors[i] || coralColors[0];
+      el.setAttribute('fill', lerpColor(pair[0].slice(1), pair[1].slice(1), bleachT));
+    });
+
+    fishGroups.forEach((fish, i) => {
+      const localT = Math.max(0, Math.min(1, (t - 0.35) / 0.4));
+      fish.setAttribute('opacity', 1 - localT);
+      const drift = (i % 2 === 0 ? -1 : 1) * localT * 50;
+      fish.setAttribute('transform', `translate(${drift}, 0)`);
+    });
+
+    const friendT = Math.max(0, Math.min(1, (t - 0.3) / 0.5));
+    friendGroup.setAttribute('opacity', 1 - friendT);
+    friendGroup.setAttribute('transform', `translate(${friendT * 80}, ${friendT * 10})`);
+
+    friendshipLine.setAttribute('opacity', 1 - Math.max(0, Math.min(1, (t - 0.2) / 0.3)));
+
+    const desatT = Math.max(0, Math.min(1, (t - 0.4) / 0.5));
+    learner.style.filter = `saturate(${1 - desatT}) brightness(${1 - desatT * 0.15})`;
+
+    if (t > 0.55) {
+      learnerMouth.setAttribute('d', 'M 198 192 Q 205 188 212 192');
+    } else if (t > 0.3) {
+      learnerMouth.setAttribute('d', 'M 198 191 Q 205 191 212 191');
+    } else {
+      learnerMouth.setAttribute('d', 'M 198 190 Q 205 195 212 190');
+    }
+
+    homeworkGroups.forEach((hw, i) => {
+      const start = 0.2 + i * 0.1;
+      const localT = Math.max(0, Math.min(1, (t - start) / 0.3));
+      hw.setAttribute('opacity', localT);
+      hw.setAttribute('transform', `translate(0, ${(1 - localT) * 80})`);
+    });
+  }
+
+  scrubber.addEventListener('input', update);
+  update();
+</script>
+
+</body>
+</html>

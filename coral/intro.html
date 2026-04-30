@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The reef and your plate</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Spectral:wght@600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --caribbean: #00C4CC;
+    --ocean: #0077B6;
+    --living-coral: #FF6F61;
+    --reef-red: #E63946;
+    --soft-coral: #F4A261;
+    --heat: #FFD166;
+    --bleached: #F5F1E8;
+    --violet: #6A4C93;
+    --gray: #8D99AE;
+    --ink: #1a1a1a;
+    --paper: #faf8f3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Lora", Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 1.2s ease;
+  }
+  body[data-stage="2"] { background: #efece5; }
+
+  .scene-wrap {
+    max-width: 720px;
+    width: 100%;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .stage-tag {
+    font-family: "Caveat", cursive;
+    color: #888;
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .plate-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+  .plate-wrap svg { width: 100%; height: auto; display: block; }
+
+  #salmon-group {
+    transition: opacity 1.5s ease, filter 1.5s ease, transform 1.5s ease;
+    transform-origin: center;
+  }
+  body[data-stage="2"] #salmon-group {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  #garnish-group {
+    transition: opacity 1.2s ease, filter 1.2s ease;
+  }
+  body[data-stage="2"] #garnish-group {
+    opacity: 0;
+  }
+
+  #cutlery-group, #plate-group {
+    transition: filter 1.5s ease;
+  }
+  body[data-stage="2"] #cutlery-group,
+  body[data-stage="2"] #plate-group {
+    filter: saturate(0) brightness(0.95);
+  }
+
+  .empty-text {
+    opacity: 0;
+    transition: opacity 1.5s ease 0.6s;
+    font-family: "Caveat", cursive;
+    font-size: 22px;
+    color: #888;
+    font-style: italic;
+  }
+  body[data-stage="2"] .empty-text { opacity: 1; }
+
+  h1.question {
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    transition: opacity 0.6s ease;
+  }
+  .question.fading { opacity: 0; }
+
+  .question-sub {
+    color: #555;
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 24px;
+    transition: opacity 0.6s ease;
+  }
+  .question-sub.fading { opacity: 0; }
+
+  .advance-btn {
+    background: var(--living-coral);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(255, 111, 97, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, opacity 0.5s ease;
+  }
+  .advance-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255, 111, 97, 0.45); }
+  .advance-btn.hidden { opacity: 0; pointer-events: none; }
+
+  .hypothesis-form {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease 0.8s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 8px;
+  }
+  body[data-stage="2"] .hypothesis-form {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  textarea {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #d4cdbf;
+    background: white;
+    min-height: 110px;
+    resize: vertical;
+    color: var(--ink);
+    transition: border-color 0.2s ease;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--ocean);
+  }
+  textarea::placeholder { color: #aaa; font-style: italic; }
+
+  .progress-nav {
+    max-width: 460px;
+    margin: 0 auto 8px;
+    padding: 18px 20px 0;
+    width: 100%;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .progress a, .progress .step {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8e2d2;
+    color: #999;
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .progress a:hover { background: #d4cdbf; transform: scale(1.05); }
+  .progress .step.done, .progress a.done {
+    background: var(--ocean);
+    color: white;
+  }
+  .progress .step.active {
+    background: var(--living-coral);
+    color: white;
+    border-color: rgba(255, 111, 97, 0.25);
+    transform: scale(1.15);
+    box-shadow: 0 2px 10px rgba(255, 111, 97, 0.35);
+  }
+  .progress .line {
+    flex: 1;
+    height: 2px;
+    background: #e8e2d2;
+    margin: 0 4px;
+  }
+  .progress .line.done { background: var(--ocean); }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Caveat", cursive;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+  .progress-labels span { width: 28px; text-align: center; }
+  .progress-labels .lbl-active { color: var(--reef-red); font-weight: 700; }
+
+  .submit-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .submit-btn {
+    background: var(--ocean);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.3);
+    transition: transform 0.2s ease;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+  .submit-btn:disabled {
+    background: #c4c0b8;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .saved-msg {
+    margin-top: 16px;
+    font-family: "Caveat", cursive;
+    font-size: 20px;
+    color: var(--ocean);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .saved-msg.show { opacity: 1; }
+</style>
+</head>
+<body data-stage="1">
+
+<nav class="progress-nav" aria-label="explorable progress">
+  <div class="progress">
+    <div class="step active" aria-current="step">1</div>
+    <div class="line"></div>
+    <div class="step">2</div>
+    <div class="line"></div>
+    <div class="step">3</div>
+    <div class="line"></div>
+    <div class="step">4</div>
+  </div>
+  <div class="progress-labels">
+    <span class="lbl-active">start</span>
+    <span>explore</span>
+    <span>reflect</span>
+    <span>act</span>
+  </div>
+</nav>
+
+<div class="scene-wrap">
+  <div class="stage-tag">— scene 1 —</div>
+
+  <div class="plate-wrap">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="salmonGrad" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#ffb39c"/>
+          <stop offset="60%" stop-color="#ff8a6b"/>
+          <stop offset="100%" stop-color="#e26a4f"/>
+        </radialGradient>
+        <radialGradient id="plateGrad" cx="50%" cy="45%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="85%" stop-color="#f3efe6"/>
+          <stop offset="100%" stop-color="#d8d2c4"/>
+        </radialGradient>
+      </defs>
+
+      <!-- placemat -->
+      <rect x="20" y="40" width="360" height="320" rx="14" fill="#e8d9b8" opacity="0.6"/>
+
+      <!-- cutlery -->
+      <g id="cutlery-group">
+        <!-- fork (top) -->
+        <g transform="translate(200 70)">
+          <rect x="-3" y="0" width="6" height="50" fill="#b8b0a0"/>
+          <rect x="-10" y="-2" width="3" height="14" fill="#b8b0a0"/>
+          <rect x="-4" y="-2" width="3" height="14" fill="#b8b0a0"/>
+          <rect x="2" y="-2" width="3" height="14" fill="#b8b0a0"/>
+          <rect x="8" y="-2" width="3" height="14" fill="#b8b0a0"/>
+        </g>
+        <!-- spoon (bottom) -->
+        <g transform="translate(200 280)">
+          <rect x="-3" y="0" width="6" height="50" fill="#b8b0a0"/>
+          <ellipse cx="0" cy="60" rx="11" ry="14" fill="#b8b0a0"/>
+        </g>
+      </g>
+
+      <!-- plate -->
+      <g id="plate-group">
+        <ellipse cx="200" cy="200" rx="110" ry="105" fill="url(#plateGrad)" stroke="#c8c0b0" stroke-width="2"/>
+        <ellipse cx="200" cy="200" rx="92" ry="88" fill="none" stroke="#e0d8c8" stroke-width="1.5"/>
+      </g>
+
+      <!-- salmon fillet -->
+      <g id="salmon-group">
+        <!-- main body -->
+        <ellipse cx="200" cy="200" rx="78" ry="38" fill="url(#salmonGrad)"/>
+        <!-- darker flesh stripes (like grilled salmon marbling) -->
+        <path d="M 135 192 Q 200 184 265 192" stroke="#c14e3a" stroke-width="1.5" fill="none" opacity="0.55"/>
+        <path d="M 138 202 Q 200 196 262 202" stroke="#c14e3a" stroke-width="1.5" fill="none" opacity="0.55"/>
+        <path d="M 140 212 Q 200 208 260 212" stroke="#c14e3a" stroke-width="1.5" fill="none" opacity="0.55"/>
+        <!-- highlight -->
+        <ellipse cx="180" cy="188" rx="38" ry="10" fill="#ffd1bd" opacity="0.5"/>
+        <!-- skin edge -->
+        <path d="M 122 200 Q 130 230 200 235 Q 270 230 278 200" stroke="#9c4030" stroke-width="2" fill="none" opacity="0.5"/>
+      </g>
+
+      <!-- garnish: lemon + parsley -->
+      <g id="garnish-group">
+        <!-- lemon wedge -->
+        <g transform="translate(265 235)">
+          <path d="M 0 0 L 28 8 A 18 18 0 0 1 22 24 Z" fill="#FFD166" stroke="#d4a830" stroke-width="1"/>
+          <line x1="6" y1="6" x2="20" y2="18" stroke="#d4a830" stroke-width="0.8"/>
+          <line x1="14" y1="3" x2="22" y2="22" stroke="#d4a830" stroke-width="0.8"/>
+        </g>
+        <!-- parsley -->
+        <g transform="translate(140 168)">
+          <circle cx="0" cy="0" r="4" fill="#5a8a3a"/>
+          <circle cx="6" cy="-3" r="3.5" fill="#6ea045"/>
+          <circle cx="3" cy="6" r="3" fill="#5a8a3a"/>
+          <circle cx="-4" cy="2" r="3" fill="#6ea045"/>
+        </g>
+      </g>
+
+    </svg>
+  </div>
+
+  <h1 class="question" id="question">What if your community had no more seafood?</h1>
+
+  <button class="advance-btn" id="advance">Imagine that →</button>
+
+  <div class="hypothesis-form">
+    <textarea id="hypothesis" placeholder="I think coral bleaching affects our food security because..."></textarea>
+    <div class="submit-row">
+      <button class="submit-btn" id="submit-hyp" disabled>Save my hypothesis →</button>
+    </div>
+    <div class="saved-msg" id="saved-msg">saved — let's go figure out why this happens</div>
+  </div>
+</div>
+
+<script>
+  const body = document.body;
+  const advanceBtn = document.getElementById('advance');
+  const question = document.getElementById('question');
+  const hypothesis = document.getElementById('hypothesis');
+  const submitBtn = document.getElementById('submit-hyp');
+  const savedMsg = document.getElementById('saved-msg');
+
+  advanceBtn.addEventListener('click', () => {
+    question.classList.add('fading');
+    advanceBtn.classList.add('hidden');
+
+    setTimeout(() => {
+      body.dataset.stage = '2';
+      question.textContent = "What does coral bleaching have to do with your community's food security?";
+      question.classList.remove('fading');
+    }, 600);
+  });
+
+  hypothesis.addEventListener('input', () => {
+    submitBtn.disabled = hypothesis.value.trim().length < 5;
+  });
+
+  submitBtn.addEventListener('click', () => {
+    const text = hypothesis.value.trim();
+    if (!text) return;
+    try {
+      localStorage.setItem('coral-hypothesis', text);
+      localStorage.setItem('coral-hypothesis-at', new Date().toISOString());
+    } catch (e) {}
+    savedMsg.classList.add('show');
+    submitBtn.textContent = '→ next: into the reef';
+    submitBtn.disabled = false;
+    submitBtn.onclick = () => { window.location.href = 'juxtaposition.html'; };
+  });
+</script>
+
+</body>
+</html>

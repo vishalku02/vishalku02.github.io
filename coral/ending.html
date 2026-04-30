@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>So... what do you think now?</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Spectral:wght@600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --caribbean: #00C4CC;
+    --ocean: #0077B6;
+    --living-coral: #FF6F61;
+    --reef-red: #E63946;
+    --soft-coral: #F4A261;
+    --heat: #FFD166;
+    --bleached: #F5F1E8;
+    --violet: #6A4C93;
+    --gray: #8D99AE;
+    --ink: #1a1a1a;
+    --paper: #faf8f3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Lora", Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scene-wrap {
+    max-width: 760px;
+    width: 100%;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .stage-tag {
+    font-family: "Caveat", cursive;
+    color: #888;
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .plate-wrap {
+    position: relative;
+    width: 220px;
+    margin: 0 auto 24px;
+  }
+  .plate-wrap svg { width: 100%; height: auto; display: block; }
+
+  h1.question {
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.3;
+    margin: 0 0 14px;
+  }
+
+  .question-sub {
+    color: #555;
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+
+  .first-guess {
+    background: white;
+    border-left: 4px solid var(--soft-coral);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 0 auto 24px;
+    max-width: 600px;
+    text-align: left;
+    box-shadow: 0 2px 12px rgba(3, 4, 94, 0.05);
+  }
+  .first-guess .label {
+    font-family: "Caveat", cursive;
+    font-size: 18px;
+    color: var(--soft-coral);
+    margin-bottom: 6px;
+  }
+  .first-guess .quote {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+    font-style: italic;
+  }
+  .first-guess .empty {
+    color: #999;
+    font-style: italic;
+    font-size: 15px;
+  }
+
+  .now-prompt {
+    font-family: "Caveat", cursive;
+    font-size: 24px;
+    color: var(--ocean);
+    margin: 8px 0 12px;
+  }
+
+  .answer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  textarea {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #d4cdbf;
+    background: white;
+    min-height: 130px;
+    resize: vertical;
+    color: var(--ink);
+    transition: border-color 0.2s ease;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--ocean);
+  }
+  textarea::placeholder { color: #aaa; font-style: italic; }
+
+  .submit-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .submit-btn {
+    background: var(--ocean);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.3);
+    transition: transform 0.2s ease;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+  .submit-btn:disabled {
+    background: #c4c0b8;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* compare view (after submit) */
+  .compare {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    margin-top: 20px;
+  }
+  .compare.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+    text-align: left;
+  }
+  @media (max-width: 600px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+  .compare-card {
+    background: white;
+    padding: 18px 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(3, 4, 94, 0.05);
+  }
+  .compare-card.then { border-top: 3px solid var(--soft-coral); }
+  .compare-card.now { border-top: 3px solid var(--ocean); }
+  .compare-card .head {
+    font-family: "Caveat", cursive;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .compare-card.then .head { color: var(--soft-coral); }
+  .compare-card.now .head { color: var(--ocean); }
+  .compare-card p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .closing-note {
+    margin-top: 28px;
+    font-family: "Spectral", serif;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .closing-note strong { color: var(--reef-red); }
+
+  .form-mode .compare { display: none; }
+
+  .progress-nav {
+    max-width: 460px;
+    margin: 0 auto 16px;
+    padding: 18px 20px 0;
+    width: 100%;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .progress a, .progress .step {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8e2d2;
+    color: #999;
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .progress a:hover { background: #d4cdbf; transform: scale(1.05); }
+  .progress .step.done, .progress a.done {
+    background: var(--ocean);
+    color: white;
+  }
+  .progress .step.active {
+    background: var(--living-coral);
+    color: white;
+    border-color: rgba(255, 111, 97, 0.25);
+    transform: scale(1.15);
+    box-shadow: 0 2px 10px rgba(255, 111, 97, 0.35);
+  }
+  .progress .line {
+    flex: 1;
+    height: 2px;
+    background: #e8e2d2;
+    margin: 0 4px;
+  }
+  .progress .line.done { background: var(--ocean); }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Caveat", cursive;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+  .progress-labels span { width: 28px; text-align: center; }
+  .progress-labels .lbl-active { color: var(--reef-red); font-weight: 700; }
+</style>
+</head>
+<body class="form-mode">
+
+<nav class="progress-nav" aria-label="explorable progress">
+  <div class="progress">
+    <a href="intro.html" class="done" aria-label="step 1: start">1</a>
+    <div class="line done"></div>
+    <a href="juxtaposition.html" class="done" aria-label="step 2: explore">2</a>
+    <div class="line done"></div>
+    <div class="step active" aria-current="step">3</div>
+    <div class="line"></div>
+    <div class="step">4</div>
+  </div>
+  <div class="progress-labels">
+    <span>start</span>
+    <span>explore</span>
+    <span class="lbl-active">reflect</span>
+    <span>act</span>
+  </div>
+</nav>
+
+<div class="scene-wrap">
+  <div class="plate-wrap">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="salmonGrad" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#ffb39c"/>
+          <stop offset="60%" stop-color="#ff8a6b"/>
+          <stop offset="100%" stop-color="#e26a4f"/>
+        </radialGradient>
+        <radialGradient id="plateGrad" cx="50%" cy="45%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="85%" stop-color="#f3efe6"/>
+          <stop offset="100%" stop-color="#d8d2c4"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="200" cy="200" rx="160" ry="155" fill="url(#plateGrad)" stroke="#c8c0b0" stroke-width="2"/>
+      <ellipse cx="200" cy="200" rx="135" ry="130" fill="none" stroke="#e0d8c8" stroke-width="1.5"/>
+      <g>
+        <ellipse cx="200" cy="200" rx="110" ry="55" fill="url(#salmonGrad)"/>
+        <path d="M 100 192 Q 200 184 300 192" stroke="#c14e3a" stroke-width="2" fill="none" opacity="0.55"/>
+        <path d="M 102 205 Q 200 198 298 205" stroke="#c14e3a" stroke-width="2" fill="none" opacity="0.55"/>
+        <path d="M 105 218 Q 200 212 295 218" stroke="#c14e3a" stroke-width="2" fill="none" opacity="0.55"/>
+        <ellipse cx="180" cy="186" rx="50" ry="14" fill="#ffd1bd" opacity="0.5"/>
+      </g>
+      <g transform="translate(280 240)">
+        <path d="M 0 0 L 36 10 A 22 22 0 0 1 28 30 Z" fill="#FFD166" stroke="#d4a830" stroke-width="1"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1 class="question">So... what does coral bleaching have to do with your community's food security?</h1>
+
+  <div class="first-guess">
+    <div class="label">When you started, you said:</div>
+    <p class="quote" id="initial-quote">—</p>
+  </div>
+
+  <div class="now-prompt">Now... what would you say?</div>
+
+  <div class="answer-form">
+    <textarea id="final-answer" placeholder="Now I think coral bleaching affects food security because..."></textarea>
+    <div class="submit-row">
+      <button class="submit-btn" id="submit-final" disabled>Save my answer →</button>
+    </div>
+  </div>
+
+  <div class="compare" id="compare">
+    <div class="compare-grid">
+      <div class="compare-card then">
+        <div class="head">where you started</div>
+        <p id="then-text">—</p>
+      </div>
+      <div class="compare-card now">
+        <div class="head">where you are now</div>
+        <p id="now-text">—</p>
+      </div>
+    </div>
+    <div class="closing-note">
+      Look how far your thinking traveled. A reef on the other side of the planet is connected to <strong>your dinner table</strong> — and to your community's future.
+    </div>
+    <div class="submit-row" style="margin-top: 22px;">
+      <button class="submit-btn" onclick="window.location.href='closing.html'">→ what can I do?</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const initialQuote = document.getElementById('initial-quote');
+  const finalAnswer = document.getElementById('final-answer');
+  const submitBtn = document.getElementById('submit-final');
+  const compare = document.getElementById('compare');
+  const thenText = document.getElementById('then-text');
+  const nowText = document.getElementById('now-text');
+  const body = document.body;
+
+  let saved = '';
+  try { saved = localStorage.getItem('coral-hypothesis') || ''; } catch (e) {}
+
+  if (saved) {
+    initialQuote.textContent = '“' + saved + '”';
+  } else {
+    initialQuote.innerHTML = '<span class="empty">(no first guess saved — that’s okay, just answer fresh)</span>';
+  }
+
+  finalAnswer.addEventListener('input', () => {
+    submitBtn.disabled = finalAnswer.value.trim().length < 5;
+  });
+
+  submitBtn.addEventListener('click', () => {
+    const text = finalAnswer.value.trim();
+    if (!text) return;
+    try {
+      localStorage.setItem('coral-final-answer', text);
+      localStorage.setItem('coral-final-answer-at', new Date().toISOString());
+    } catch (e) {}
+
+    thenText.textContent = saved ? '“' + saved + '”' : '(no first guess on file)';
+    nowText.textContent = '“' + text + '”';
+    body.classList.remove('form-mode');
+    compare.classList.add('show');
+    compare.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+</body>
+</html>
