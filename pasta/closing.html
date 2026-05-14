@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>So why salt at all?</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Spectral:wght@600;700&family=Caveat:wght@400;700&family=Pacifico&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tomato: #c62828;
+    --tomato-deep: #8b1a1a;
+    --basil: #5a8a3a;
+    --basil-light: #8bbf5e;
+    --cream: #fdf6e3;
+    --paper: #faf3df;
+    --terra: #c87a4a;
+    --salt: #f6f1e6;
+    --gold: #d4a017;
+    --ink: #2a1f1a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Lora", Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  .wrap {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 36px 24px;
+  }
+  .stage-tag {
+    font-family: "Caveat", cursive;
+    color: #8b6a3c;
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  h1 {
+    font-family: "Spectral", serif;
+    text-align: center;
+    font-size: 32px;
+    margin: 0 0 8px;
+    color: var(--tomato-deep);
+  }
+  .lede {
+    text-align: center;
+    color: #6b5848;
+    font-style: italic;
+    margin-bottom: 30px;
+    font-size: 17px;
+  }
+
+  .card {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 24px 26px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+    border: 1.5px solid #d4c8a0;
+    margin-bottom: 22px;
+  }
+
+  .hypothesis-recall {
+    background: linear-gradient(135deg, #fff 0%, var(--paper) 100%);
+    border-left: 4px solid var(--gold);
+  }
+  .hypothesis-recall .label {
+    font-family: "Caveat", cursive;
+    font-size: 18px;
+    color: #8b6a3c;
+    margin-bottom: 4px;
+  }
+  .hypothesis-recall .text {
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .hypothesis-recall .text:empty::before {
+    content: "(you skipped the hypothesis — that's ok)";
+    color: #aaa;
+    font-style: italic;
+  }
+
+  .truth-card h2 {
+    font-family: "Pacifico", cursive;
+    color: var(--tomato-deep);
+    font-size: 26px;
+    margin: 0 0 14px;
+  }
+  .truth-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .truth-row .icon {
+    flex: 0 0 36px;
+    height: 36px;
+    background: var(--salt);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #d4c8a0;
+    font-size: 18px;
+  }
+
+  .myth-vs-real {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media (max-width: 600px) { .myth-vs-real { grid-template-columns: 1fr; } }
+  .myth, .real {
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .myth {
+    background: rgba(198, 40, 40, 0.08);
+    border: 1.5px dashed var(--tomato);
+  }
+  .real {
+    background: rgba(90, 138, 58, 0.08);
+    border: 1.5px solid var(--basil);
+  }
+  .myth h4, .real h4 {
+    margin: 0 0 6px;
+    font-family: "Spectral", serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .myth h4 { color: var(--tomato-deep); }
+  .real h4 { color: var(--basil); }
+  .myth p, .real p { margin: 0; font-size: 14px; line-height: 1.5; }
+
+  .real-reasons {
+    margin-top: 6px;
+  }
+  .real-reasons li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .real-reasons li strong { color: var(--tomato-deep); }
+
+  .reflect-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .reflect-form textarea {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #d4cdbf;
+    background: white;
+    min-height: 100px;
+    resize: vertical;
+    color: var(--ink);
+  }
+  .reflect-form textarea:focus { outline: none; border-color: var(--tomato); }
+  .reflect-form .submit-btn {
+    background: var(--basil);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 14px rgba(90, 138, 58, 0.3);
+    transition: transform 0.2s ease;
+  }
+  .reflect-form .submit-btn:hover { transform: translateY(-2px); }
+  .reflect-form .submit-btn:disabled { background: #c4c0b8; box-shadow: none; cursor: not-allowed; transform: none; }
+  .saved-msg {
+    margin-top: 8px;
+    font-family: "Caveat", cursive;
+    font-size: 20px;
+    color: var(--basil);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .saved-msg.show { opacity: 1; }
+
+  .final-row {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .final-row p {
+    font-family: "Caveat", cursive;
+    font-size: 22px;
+    color: var(--tomato-deep);
+    margin: 0 0 14px;
+  }
+  .replay-btn, .home-btn {
+    background: white;
+    color: var(--tomato-deep);
+    border: 2px solid var(--tomato);
+    padding: 10px 18px;
+    font-family: "Spectral", serif;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 6px;
+  }
+  .replay-btn:hover, .home-btn:hover { background: var(--tomato); color: white; }
+
+  .progress-nav {
+    max-width: 460px;
+    margin: 0 auto 14px;
+    padding: 18px 20px 0;
+    width: 100%;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .progress a, .progress .step {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #e8dfc8;
+    color: #9a8769;
+    font-family: "Spectral", serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .progress a:hover { background: #d4cdbf; transform: scale(1.05); }
+  .progress a.done { background: var(--basil); color: white; }
+  .progress .step.active {
+    background: var(--tomato);
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 2px 10px rgba(198, 40, 40, 0.35);
+  }
+  .progress .line { flex: 1; height: 2px; background: #e8dfc8; margin: 0 4px; }
+  .progress .line.done { background: var(--basil); }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Caveat", cursive;
+    font-size: 13px;
+    color: #b0a085;
+    margin-top: 4px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+  }
+  .progress-labels span { width: 64px; text-align: center; margin: 0 -18px; }
+  .progress-labels .lbl-active { color: var(--tomato); font-weight: 700; }
+
+  .takeaway {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 18px 0;
+    text-align: center;
+    border: 2px dashed var(--tomato);
+  }
+  .takeaway .big {
+    font-family: "Pacifico", cursive;
+    font-size: 26px;
+    color: var(--tomato-deep);
+    margin: 0 0 8px;
+  }
+  .takeaway .sub {
+    color: #6b5848;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<nav class="progress-nav">
+  <div class="progress">
+    <a href="intro.html" class="done">1</a>
+    <div class="line done"></div>
+    <a href="kitchen.html" class="done">2</a>
+    <div class="line done"></div>
+    <a href="lab.html" class="done">3</a>
+    <div class="line done"></div>
+    <div class="step active">4</div>
+  </div>
+</nav>
+<div class="progress-labels">
+  <span>hypothesis</span>
+  <span>kitchen</span>
+  <span>lab</span>
+  <span class="lbl-active">reflect</span>
+</div>
+
+<div class="wrap">
+  <div class="stage-tag">— scene 4 · reflect & plate up —</div>
+  <h1>Allora — so why <em>do</em> we salt the water?</h1>
+  <p class="lede">It's not for time. Let's settle it.</p>
+
+  <div class="card hypothesis-recall">
+    <div class="label">what you said at the start:</div>
+    <div class="text" id="hyp-text"></div>
+  </div>
+
+  <div class="takeaway">
+    <div class="big">salt makes water boil <em>infinitesimally</em> hotter</div>
+    <div class="sub">A normal pasta pot — ~10 g/L of salt — bumps the boil by about <strong>+0.09 °C</strong>.<br>
+    That trims roughly <strong>3 seconds</strong> off an 8-minute cook. A blink.</div>
+  </div>
+
+  <div class="card truth-card">
+    <h2>So the myth vs. the kitchen</h2>
+    <div class="myth-vs-real">
+      <div class="myth">
+        <h4>the myth</h4>
+        <p>"Aggiungi il sale — l'acqua bolle più veloce." Add salt so the water boils faster, and pasta cooks faster.</p>
+      </div>
+      <div class="real">
+        <h4>what's actually happening</h4>
+        <p>Salt does raise the boiling point, but by a sliver — <strong>0.5 g of salt per liter ≈ 0.005 °C</strong>. The cook-time savings are buried in noise.</p>
+      </div>
+    </div>
+    <p style="font-size:14px; color:#6b5848; margin-top:6px; line-height:1.5;">
+      Where the myth comes from: people <em>do</em> see salted water "stop bubbling" right after they dump salt in. That isn't the boiling point dropping — it's the nucleation sites where bubbles formed getting briefly disrupted as crystals dissolve. The temperature is unchanged.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:'Pacifico',cursive; color:var(--tomato-deep); margin:0 0 12px;">Real reasons to salt the water</h2>
+    <ol class="real-reasons">
+      <li><strong>Flavor.</strong> Pasta is starch — it's bland. The salt that diffuses in during boiling seasons the noodle itself in a way you can't replicate by salting at the table. This is the whole reason.</li>
+      <li><strong>Texture, a little.</strong> Salt makes starch granules swell slightly less, which can keep the pasta firmer on the surface. The effect is real but small at normal amounts.</li>
+      <li><strong>Sauce adhesion.</strong> Lightly salted pasta water becomes the seasoning for your sauce when you finish the pasta in the pan — a tablespoon of pasta water emulsifies and seasons in one move.</li>
+    </ol>
+    <p style="font-size:14px; color:#6b5848; margin-top:6px; line-height:1.5;">
+      The Italian rule of thumb — "salty like the sea" — comes out to about <strong>7–10 g/L</strong>, not the literal 35 g/L of seawater. Use that, and stop chasing the timer.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2 style="font-family:'Pacifico',cursive; color:var(--tomato-deep); margin:0 0 12px;">Update your kitchen rule</h2>
+    <div class="reflect-form">
+      <p style="margin:0 0 4px; color:#6b5848;">In your own words — what's the new rule for salting pasta water?</p>
+      <textarea id="reflection" placeholder="My updated rule is…"></textarea>
+      <button class="submit-btn" id="submit-ref" disabled>Save my new rule</button>
+      <div class="saved-msg" id="saved-msg">salvato — see you in the kitchen, chef.</div>
+    </div>
+  </div>
+
+  <div class="final-row">
+    <p>buon appetito.</p>
+    <a href="kitchen.html" class="replay-btn">↻ replay the rush</a>
+    <a href="../" class="home-btn">← back home</a>
+  </div>
+</div>
+
+<script>
+  const hypText = document.getElementById('hyp-text');
+  try {
+    const h = localStorage.getItem('pasta-hypothesis');
+    if (h && h.trim()) hypText.textContent = `"${h}"`;
+  } catch (e) {}
+
+  const reflection = document.getElementById('reflection');
+  const submitBtn = document.getElementById('submit-ref');
+  const savedMsg = document.getElementById('saved-msg');
+
+  reflection.addEventListener('input', () => {
+    submitBtn.disabled = reflection.value.trim().length < 5;
+  });
+  submitBtn.addEventListener('click', () => {
+    const text = reflection.value.trim();
+    if (!text) return;
+    try {
+      localStorage.setItem('pasta-reflection', text);
+      localStorage.setItem('pasta-reflection-at', new Date().toISOString());
+    } catch (e) {}
+    savedMsg.classList.add('show');
+    submitBtn.textContent = 'saved ✓';
+    submitBtn.disabled = true;
+  });
+</script>
+
+</body>
+</html>
