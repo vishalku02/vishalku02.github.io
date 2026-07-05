@@ -1,0 +1,14 @@
+# ---- EDIT THESE ----
+title: Vishal Kumar
+email: vishalku@stanford.edu
+github: VishyFishy02
+linkedin: vishal-kumar02
+# ---- Leave the rest alone ----
+markdown: kramdown
+exclude:
+  - node_modules
+  - dist
+  - package.json
+  - package-lock.json
+  - vite.config.js
+  - paragraphs.docx

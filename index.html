@@ -1,105 +1,90 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Spectral:wght@600;700&display=swap" rel="stylesheet">
-    <title>Vishal Kumar</title>
-  </head>
-  <body>
-    <svg class="paper-texture" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-      <filter id="paper-noise">
-        <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" result="noise"/>
-        <feColorMatrix in="noise" type="saturate" values="0"/>
-      </filter>
-      <rect width="100%" height="100%" fill="#fafbfc" filter="url(#paper-noise)"/>
-    </svg>
-    <main>
-      <section class="intro">
-        <aside class="margin-note">
-          <figure>
-            <img src="lifestyle.jpg" alt="Vishal in Taiwan">
-          </figure>
-        </aside>
-        <header>
-          <h1>Vishal Kumar</h1>
-        </header>
-        <p>
-          I am a first-year graduate student at Stanford University, where I'm advised by <a href="https://www.dorademszky.com/publications" target="_blank">Dora Demszky</a>. I'm interested in building collaborative AI systems that build and augment human expertise. I'm particularly curious about how insights from learning sciences and human-computer interaction can inform these systems' design and evaluation in-the-wild.
-        </p>
-        <p>
-          Previously, I taught English and Computer Programming as a Fulbright Scholar in New Taipei City, Taiwan while collaborating on NLP and education research projects with <a href="https://u.osu.edu/ihudas/people/" target="_blank">Huan Sun</a> and <a href="https://www.cs.cmu.edu/~bmclaren/" target="_blank">Bruce McLaren</a>.
-        </p>
-        <!-- <p>
-          Before that, I was a computer science and engineering undergrad at Ohio State University and spent my summers working as a software engineer, ESL teacher, and (one of my favorite jobs) a kayaking instructor.
-        </p> -->
-        <p class="contact-inline">You can find me at: vishalku [at] stanford [dot] edu</p>
-      </section>
+---
+layout: default
+---
 
-      <section class="papers">
-        <aside class="papers-margin-note">
-          * denotes equal contribution
-        </aside>
-        <h2 class="section-header">Papers</h2>
-        <div class="entries">
-          <article class="entry">
-            <div>
-              <h3 class="entry-title"><a href="https://arxiv.org/abs/2511.08283">DiagramIR: An Automatic Pipeline for Educational Math Diagram Evaluation</a></h3>
-              <p class="entry-authors"><strong>Vishal Kumar</strong>, Shubhra Mishra, Rebecca Hao, Rizwaan Malik, David Broman, Dorottya Demszky</p>
-              <p class="entry-venue">NeurIPS Math-AI 2025</p>
-              <p>DiagramIR introduces a scalable method for automatic evaluation of diagram quality when no ground truth exists. The method achieves higher agreement with human raters and enables smaller models to match frontier ones at a fraction of the inference cost.</p>
-              <div class="entry-links">
-                <a href="https://github.com/EduNLP/DiagramIR">GitHub</a>
-              </div>
-            </div>
-          </article>
+<section>
+  <p>
+    <label for="mn-photo" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn-photo" class="margin-toggle"/>
+    <span class="marginnote photo-swap"><img src="lifestyle.jpg" alt="Vishal in Taiwan"></span>
+    I am a first-year graduate student at Stanford University, where I'm advised by
+    <a href="https://www.dorademszky.com/publications">Dora Demszky</a>. I'm interested
+    in building collaborative AI systems that build and augment human expertise. I'm
+    particularly curious about how insights from learning sciences and human-computer
+    interaction can inform these systems' design and evaluation in-the-wild.
+  </p>
 
-          <article class="entry">
-            <div>
-              <h3 class="entry-title"><a href="https://arxiv.org/pdf/2410.22143">AmpleGCG-Plus: A Strong Generative Model of Adversarial Suffixes to Jailbreak LLMs with Higher Success Rates in Fewer Attempts</a></h3>
-              <p class="entry-authors"><strong>Vishal Kumar</strong>*, Zeyi Liao*, Jaylen Jones, Huan Sun</p>
-              <p class="entry-venue">Poster at COLM 2024</p>
-              <p>AmpleGCG-Plus is a suite of LLMs for rapidly "jailbreaking" other LLMs. Based on Ample-GCG, our models learn the GCG jailbreaking algorithm and generalize to any harmful query, enabling scalable automatic red-teaming.</p>
-              <div class="entry-links">
-                <a href="https://huggingface.co/osunlp/AmpleGCG-plus-llama2-sourced-llama2-7b-chat">HuggingFace</a>
-              </div>
-            </div>
-          </article>
+  <p>
+    Previously, I taught English and Computer Programming as a Fulbright Scholar in New
+    Taipei City, Taiwan while collaborating on NLP and education research projects with
+    <a href="https://u.osu.edu/ihudas/people/">Huan Sun</a> and
+    <a href="https://www.cs.cmu.edu/~bmclaren/">Bruce McLaren</a>.
+  </p>
 
-          <article class="entry">
-            <div>
-              <h3 class="entry-title"><a href="https://www.erdosinstitute.org/_files/ugd/910cb4_ecf23fcdffcb44329b7a6938dffabb96.pdf">Somm: A wine recommendation engine</a></h3>
-              <p class="entry-authors">Palak Arora, Pavel Kovalev, <strong>Vishal Kumar</strong>, Veronica Miaatto, Jade Nguyen</p>
-              <p class="entry-venue">Erdos Institute Data Science Showcase</p>
-              <p>Somm helps new wine drinkers navigate the wine market via simple queires about desired flavor notes. We built a retrieval and re-ranking algorithm over expert wine reviews. The project won a top prize among 500+ students at the Erdos Institute.</p>
-              <div class="entry-links">
-                <a href="https://github.com/VishyFishy02/Somm_Wine_Recommendation">GitHub</a>
-                <a href="https://www.erdosinstitute.org/project-database/fall-2023/data-science-boot-camp/somm">Demo</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
+  <p>You can find me at: vishalku [at] stanford [dot] edu</p>
+</section>
 
-      <section>
-        <h2 class="section-header">Teaching</h2>
-        <p>
-          Before coming to Stanford, I taught English and computer programming to elementary school students in Yeliou, a rural town on the northern tip of Taiwan. Before that, I taught ESL to new-American families in my hometown of Columbus, Ohio.
-        </p>
-      </section>
+<section>
+  <h2>Papers</h2>
 
-      <footer id="contact">
-        <small>
-          <p>you can also find me here:</p>
-          <p>
-            <a href="https://www.linkedin.com/in/vishal-kumar02" target="_blank">linkedin</a> |
-            <a href="https://github.com/VishyFishy02" target="_blank">github</a>
-          </p>
-          <p>this website is inspired by <a href="https://kunhanda.github.io/" target="_blank">kunhanda.github.io</a></p>
-          last updated: Dec 2025.
-        </small>
-      </footer>
-    </main>
-    <script type="module" src="/main.js"></script>
-  </body>
-</html>
+  <div class="paper">
+    <a class="title" href="https://aclanthology.org/2026.acl-demo.59/">EduCoder: An Open-Source Annotation System for Education Transcript Data</a>
+    <span class="authors">Saad Ashraf, Jim Malamut, <strong>Vishal Kumar</strong>, Guanzhong Pan, HyunJi Nam, Mei Tan, Luc&iacute;a Langlois, Liliana Carolina Santos-Deonizio, Helen Spencer Higgins, Dorottya Demszky</span>
+    <span class="venue">ACL 2026 System Demonstrations</span>
+    <p>
+      EduCoder is an open-source web platform for annotating classroom conversation
+      transcripts. It combines transcript text, video, and instructional materials
+      into a single annotation workspace, and supports team-based and
+      human&ndash;AI collaborative annotation.
+    </p>
+    <span class="links"><a href="https://edu-coder.com">Demo</a> &middot; <a href="https://aclanthology.org/2026.acl-demo.59.pdf">PDF</a></span>
+  </div>
+
+  <div class="paper">
+    <a class="title" href="https://arxiv.org/abs/2511.08283">DiagramIR: An Automatic Pipeline for Educational Math Diagram Evaluation</a>
+    <span class="authors"><strong>Vishal Kumar</strong>, Shubhra Mishra, Rebecca Hao, Rizwaan Malik, David Broman, Dorottya Demszky</span>
+    <span class="venue">NeurIPS Math-AI 2025</span>
+    <p>
+      DiagramIR introduces a scalable method for automatic evaluation of diagram quality
+      when no ground truth exists. The method achieves higher agreement with human raters
+      and enables smaller models to match frontier ones at a fraction of the inference cost.
+    </p>
+    <span class="links"><a href="https://github.com/EduNLP/DiagramIR">GitHub</a></span>
+  </div>
+
+  <div class="paper">
+    <a class="title" href="https://arxiv.org/pdf/2410.22143">AmpleGCG-Plus: A Strong Generative Model of Adversarial Suffixes to Jailbreak LLMs with Higher Success Rates in Fewer Attempts</a>
+    <label for="sn-eq" class="margin-toggle sidenote-number"></label>
+    <input type="checkbox" id="sn-eq" class="margin-toggle"/>
+    <span class="sidenote">* denotes equal contribution.</span>
+    <span class="authors"><strong>Vishal Kumar</strong>*, Zeyi Liao*, Jaylen Jones, Huan Sun</span>
+    <span class="venue">Poster at COLM 2024</span>
+    <p>
+      AmpleGCG-Plus is a suite of LLMs for rapidly "jailbreaking" other LLMs. Based on
+      Ample-GCG, our models learn the GCG jailbreaking algorithm and generalize to any
+      harmful query, enabling scalable automatic red-teaming.
+    </p>
+    <span class="links"><a href="https://huggingface.co/osunlp/AmpleGCG-plus-llama2-sourced-llama2-7b-chat">HuggingFace</a></span>
+  </div>
+
+  <div class="paper">
+    <a class="title" href="https://www.erdosinstitute.org/_files/ugd/910cb4_ecf23fcdffcb44329b7a6938dffabb96.pdf">Somm: A wine recommendation engine</a>
+    <span class="authors">Palak Arora, Pavel Kovalev, <strong>Vishal Kumar</strong>, Veronica Miaatto, Jade Nguyen</span>
+    <span class="venue">Erdos Institute Data Science Showcase</span>
+    <p>
+      Somm helps new wine drinkers navigate the wine market via simple queries about desired
+      flavor notes. We built a retrieval and re-ranking algorithm over expert wine reviews.
+      The project won a top prize among 500+ students at the Erdos Institute.
+    </p>
+    <span class="links"><a href="https://github.com/VishyFishy02/Somm_Wine_Recommendation">GitHub</a> &middot; <a href="https://www.erdosinstitute.org/project-database/fall-2023/data-science-boot-camp/somm">Demo</a></span>
+  </div>
+</section>
+
+<section>
+  <h2>Teaching</h2>
+  <p>
+    Before coming to Stanford, I taught English and computer programming to elementary
+    school students in Yeliou, a rural town on the northern tip of Taiwan. Before that,
+    I taught ESL to new-American families in my hometown of Columbus, Ohio.
+  </p>
+</section>

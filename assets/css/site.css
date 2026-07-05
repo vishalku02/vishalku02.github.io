@@ -1,0 +1,54 @@
+/* Minimal customizations over stock Tufte CSS: water-teal accent + margin photo. */
+:root {
+  --accent: #3d7a6e;
+  --accent-tint: #dbeeed;
+}
+
+body { background-color: #fffffc; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #7cc4b4;
+    --accent-tint: #234b43;
+  }
+
+  body { background-color: #151515; }
+}
+
+::selection { background: var(--accent-tint); }
+
+a:link, a:visited { color: var(--accent); }
+
+.sidenote-number:after,
+.sidenote:before {
+  color: var(--accent);
+}
+
+/* Margin photo: shows Yeliou on hover */
+.photo-swap img { display: block; width: 100%; }
+.photo-swap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../../yeliou.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.photo-swap:hover::after { opacity: 1; }
+
+.paper { width: 55%; margin-top: 2rem; }
+.paper .title { font-weight: bold; }
+.paper .authors, .paper .venue { display: block; font-size: 1.2rem; line-height: 1.5rem; }
+.paper .venue { font-style: italic; }
+.paper .links { font-size: 1.2rem; }
+
+.footer { font-size: 1.1rem; margin-top: 3rem; }
+
+@media (max-width: 760px) {
+  .paper { width: auto; }
+  .photo-swap::after { display: none; }
+  .photo-swap img { max-width: 260px; margin: 0 auto; }
+}
