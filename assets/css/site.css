@@ -1,6 +1,7 @@
 /* Minimal customizations over stock Tufte CSS: water-teal accent + margin photo. */
 :root {
-  --accent: #14926f;
+  --accent: #187a62;
+  --accent-punch: #14926f;
   --accent-tint: #47e0c0;
 }
 
@@ -9,6 +10,7 @@ body { background-color: #fffffc; }
 @media (prefers-color-scheme: dark) {
   :root {
     --accent: #47e0c0;
+    --accent-punch: #47e0c0;
     --accent-tint: #14503f;
   }
 
@@ -40,7 +42,7 @@ a:link, a:visited { color: var(--accent); }
 .photo-swap:hover::after { opacity: 1; }
 
 .paper { width: 55%; margin-top: 2rem; }
-.paper .title { font-weight: bold; font-size: 1.5rem; line-height: 2rem; }
+.paper .title { font-weight: bold; font-size: 1.5rem; line-height: 2rem; color: var(--accent-punch); }
 .paper .authors, .paper .venue { display: block; font-size: 1.2rem; line-height: 1.5rem; }
 .paper .venue { font-style: italic; }
 .paper .links { font-size: 1.2rem; }
