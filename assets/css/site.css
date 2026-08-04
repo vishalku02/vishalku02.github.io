@@ -5,7 +5,7 @@
   --accent-tint: #47e0c0;
 }
 
-body { background-color: #fffffc; }
+body { background-color: #fff; }
 
 @media (prefers-color-scheme: dark) {
   :root {

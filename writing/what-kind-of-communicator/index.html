@@ -1,0 +1,320 @@
+---
+layout: default
+title: What Kind of Communicator Does AI Ask Me to Become?
+---
+
+<h1>What Kind of Communicator Does AI Ask Me to Become?</h1>
+<p class="subtitle">A Reflective Analysis on Authoring Explorable Explanations with Generative AI</p>
+
+<section>
+  <p>Vishal Kumar</p>
+  <p>
+    <em>Author’s note.</em> This paper was written by Vishal Kumar in collaboration
+    with Claude Opus 4.7 (Anthropic), used as a thinking and drafting partner
+    throughout. All ideas, evidence selections, and arguments are mine; Claude
+    helped me organize, articulate, and prose-edit them. The full conversation log
+    is available at [<a href="https://claude.ai/share/dfdf2886-4ab3-4ad2-93ea-52314fc7bfd0">link</a>].
+    I want this disclosed up front because the paper’s own argument concerns honest
+    communicative practice with AI, and concealing that practice would undercut the
+    position I am defending.
+  </p>
+</section>
+
+<section>
+  <h2 id="introduction">Introduction</h2>
+
+  <p>
+    Over three studio sessions across weeks five, seven, and eight, my collaborators
+    and I used Claude Code to build three explorable explanations: a
+    <a href="{{ '/coral/' | relative_url }}">coral bleaching simulation</a> for
+    seventh graders in Alaska (with Felicia Yan, Manuel Cardenas, and Rafael
+    Bitanga), a <a href="{{ '/pasta/' | relative_url }}">pasta-misconception
+    game</a> in the style of <em>Overcooked</em> and <em>Cooking Mama</em> (with
+    Brooke Ho, David Chang, and Saad Ashraf), and a sonified gravity simulation
+    in which cartoon characters bungee-jump on different planets (with Ishita
+    Kumar and Tonya Murray). This paper is a reflective analysis of those
+    sessions &mdash; not of the artifacts themselves, but of what happened in
+    the prompting. Drawing on the Gulf of Envisioning framework from Subramonyam,
+    Pea, and colleagues (2024) and the task-level abstraction model proposed in
+    SimStep (Kaputa, Subramonyam, et al., 2026), I diagnose the envisioning gaps
+    that surfaced in my own prompt logs (Section 1), trace where design agency
+    lived across my process (Section 2), and articulate a position on what
+    designing with AI asked me to become as a communicator (Section 3). The
+    argument that emerges is that the Gulf of Envisioning is less a usability
+    problem to engineer around than a diagnosis of our own communicative literacy
+    &mdash; and that the practice of bridging it, repeated, is itself a form of
+    learning that compounds.
+  </p>
+
+</section>
+
+<section>
+  <h2 id="envisioning-challenges">Section 1: Diagnosing My Own Envisioning Challenges</h2>
+
+  <p>
+    Across three studio sessions &mdash; a coral bleaching explorable with Rafael,
+    a pasta-misconception game, and a sonified gravity simulation with Ishita Kumar
+    and Tonya Murray &mdash; I prompted Claude Code as a building collaborator.
+    The Gulf of Envisioning framework from Subramonyam, Pea, and colleagues (2024)
+    gives me a vocabulary for what was happening in those exchanges that I didn’t
+    have at the time. Below I trace four moments that illustrate three of the
+    sub-gaps the paper names &mdash; task-output, instruction, capability &mdash;
+    plus a fourth I want to call <em>intent articulation</em>, where the gulf
+    isn’t between prompt and output but between my own fuzzy intent and the prompt
+    I committed to.
+  </p>
+
+  <p>
+    <strong>The dinner table that never was (intent articulation).</strong>
+    In the coral session, I prompted: <em>“we want to start off with the scene of
+    a dinner plate with salmon on it.”</em> When I reflected on this session weeks
+    later, I remembered wanting “a whole family at the dinner table” and being
+    disappointed that the AI gave me only a plate of fish. But the log shows the
+    AI rendered exactly what I asked for. The family was never in the prompt. This
+    is intent articulation in its purest form &mdash; the kind of gap Subramonyam,
+    Pea, and colleagues describe when designers’ goals are not yet “well-formed”
+    before prompting begins. Prompting forced a premature commitment, and the
+    commitment overwrote the original intent so completely that I forgot I had
+    ever made it. No re-prompting strategy could have bridged this, because at the
+    moment of writing I didn’t know I was leaving something out.
+  </p>
+
+  <p>
+    <strong>Fragment prompting (instruction gap).</strong> Later in the same
+    session: <em>“no keep the bridge metaphorical, reefs as a parable as an
+    indicator for what’s happening to your local waters.”</em> I prompted in
+    note-to-self fragments throughout coral &mdash; no subject, internal
+    references, sentences that finish thoughts I never started out loud. I was
+    treating Claude as a collaborator who already shared my context. Subramonyam,
+    Pea, and colleagues frame the instruction gap as uncertainty about
+    <em>what kind of language and framing the model responds to</em>; my version
+    of it was almost the inverse &mdash; a kind of over-trust in
+    social-communicative continuity. The AI did sometimes bridge these fragments.
+    But the bridging was its inference, not my articulation, which means the
+    design decisions encoded in those moments are not fully mine.
+  </p>
+
+  <p>
+    <strong>Cooking mama, post-hoc (capability gap).</strong> After Claude’s first
+    build of the pasta game, I voice-noted a critique: <em>“one, it would be cool
+    if, like, you were a player and you could, like, move around to the different
+    ingredient stations. Um, two, moving to those stations to trigger, like,
+    cooking mama, like, mini games…”</em> My original prompt asked for none of
+    this. The walking player, the station mini-games, the customer sprites &mdash;
+    these only became askable <em>after</em> I saw what the first version wasn’t.
+    This is the capability gap the authors describe as not knowing what the model
+    can do well enough to formulate the request. My strategy here was iterative
+    &mdash; I bridged the gap by using the first output as a scaffold for imagining
+    the second. But it also means the simulation’s mechanical ambition was set by
+    Claude’s first attempt as much as by my initial vision.
+  </p>
+
+  <p>
+    <strong>Bungee in space (intent articulation, again, at three levels at
+    once).</strong> In the gravity session, I prompted: <em>“I would like five
+    different [kinds] of the explosion sounds. […] also make the falling noise a
+    whistle type of noise. bungee jumping in space.”</em> This single prompt
+    operates at three levels of abstraction: implementation (five tiers of
+    synthesis), task (a whistle), and vibe (“bungee jumping in space”). The last
+    is the most evocative line in any of my logs and also the most under-specified
+    &mdash; and the AI translated it into damped spring oscillations, a starfield,
+    and a striped cord, without any of those choices having been mine. I accepted
+    them readily because they felt right; but my scratchpad reflection &mdash;
+    that I cannot fully explain why my most recent simulation works the way it
+    does &mdash; finds its evidence here. Looking across the gravity session, I
+    notice something my memory had not surfaced: I prompted almost entirely at the
+    implementation level. There is no prompt that names a pedagogical concept
+    (force, gravitational acceleration, the felt sense of mass). Compare this to
+    coral, where I explicitly listed three learning hypotheses before any
+    building. The intent articulation gap is visible in the gravity logs not as
+    fuzzy prompts but as a missing <em>kind</em> of prompt &mdash; I was prompting
+    around the concept without ever stating it.
+  </p>
+
+</section>
+
+<section>
+  <h2 id="design-agency">Section 2: Tracing Design Agency in My Process</h2>
+
+  <p>
+    If Section 1 names the gaps, Section 2 asks who was actually deciding what when
+    those gaps were operating. Looking back at the same logs through this lens
+    reveals a pattern I didn’t see while building: my design agency was not
+    constant across the sessions or even within them. It moved depending on the
+    level of abstraction I was prompting at, and on whether Claude surfaced its
+    decisions back to me as choices.
+  </p>
+
+  <p>
+    <strong>Highest agency: when the AI surfaced its decisions as questions.</strong>
+    The clearest moment of authorship in the pasta session came not from a prompt
+    I wrote but from a question Claude asked back. After the initial design sketch,
+    Claude returned: <em>“Two design calls I want your input on: Should salt in the
+    kitchen mini-game have zero effect on time, or a barely-visible one? […]
+    Failure mode: time pressure or calmer?”</em> My response was substantive:
+    <em>“a barely visible one, like we need to draw attention ot the fact that not
+    much changes, right? maybe the time shakes a bit on the screen and it’s really
+    just a sliver. and we have time pressure. so users might want to add more salt
+    ot make that timer go down, but they’ll pour too much, ruin the saltiness, and
+    see the timer won’t budge that must.”</em> That single reply contains the
+    pedagogical heart of the explorable &mdash; the misconception bait, the
+    visible-but-tiny feedback, the time pressure that motivates the trap. This is
+    what Kaputa, Subramonyam, and colleagues (2026) describe as task-level
+    abstraction in SimStep: the human declares what should happen pedagogically,
+    the system handles the rest. Crucially, it happened <em>inside</em> open-ended
+    prompting &mdash; not because the framework forced it, but because Claude
+    offered me a discrete choice. My agency was high here because the decision was
+    made legible before being made.
+  </p>
+
+  <p>
+    <strong>Lowest agency: implementation prompts with implicit pedagogical
+    drift.</strong> The gravity session was the opposite. Across nearly every
+    prompt, I worked at the implementation level: <em>“use different character
+    voices for different planets”</em>, <em>“five different their of the explosion
+    sounds”</em>, <em>“could we attach characters to the different voice dictation
+    pitches.”</em> These are feature requests, not pedagogical decisions, but each
+    one quietly committed the simulation to a particular pedagogical stance
+    &mdash; that gravity should be felt sonically rather than calculated, that
+    personality and character matter more than the equation F = m &times; g, that
+    play comes before formalization. None of those commitments were prompts I
+    wrote. They were the cumulative effect of prompting at the wrong level. I felt
+    least in control here precisely because I never felt out of control &mdash;
+    the simulation grew under my hands and looked like mine, but its theory of how
+    learners should encounter gravity was Claude’s by default.
+  </p>
+
+  <p>
+    <strong>The bungee line as a hinge.</strong> Between these two extremes is
+    <em>“bungee jumping in space.”</em> That prompt accomplished, in five words,
+    what most of my pasta prompts struggled to accomplish in paragraphs &mdash;
+    it gave Claude a coherent design direction that propagated through dozens of
+    downstream choices (damped oscillations, starfield, striped cord, character
+    sprites). But the cost is that I cannot inventory those choices now. I
+    authored the vibe; Claude authored everything below it. The vibe-level prompt
+    feels like maximum agency &mdash; one line shaped the whole scene &mdash; but
+    it is closer to abdication. I gave up the right to decide each detail in
+    exchange for coherence. Whether that is a fair trade depends on whether the
+    details matter for learning, and in a simulation about gravity, they almost
+    certainly do.
+  </p>
+
+  <p>
+    <strong>My process compared to SimStep.</strong> SimStep proposes a structured
+    collaboration where the human commits to pedagogical goals and learner tasks
+    at a deliberate level of abstraction, and the system handles representation
+    and interaction below that line. My process was the inverse: I drifted across
+    abstraction levels, sometimes naming pedagogical goals (coral’s three
+    hypotheses), sometimes naming tasks (the salt feedback loop), sometimes
+    naming only vibes (bungee in space), with no scaffold forcing me to clarify
+    which I was doing. What I gained from open-ended prompting was the right to
+    invite Claude into our community of practice as a participant who could
+    surprise me &mdash; the pasta game’s mini-game stations, which I would never
+    have specified, became the best part of the build. What I lost was the
+    discipline SimStep’s abstraction would have imposed &mdash; a check at each
+    level of decision-making that would have made the design choices mine to keep
+    or refuse. Open-ended prompting gave me an artifact; SimStep would have given
+    me an authored artifact, and the difference is whether I can stand behind
+    every choice in it.
+  </p>
+
+</section>
+
+<section>
+  <h2 id="position">Section 3: A Position on Designing with AI</h2>
+
+  <p>
+    The position I want to argue is this: extending Roy Pea’s framework of
+    distributed cognition (Pea, 1993) to account for AI requires us to treat the
+    AI as a participant in the cognitive network whose quality of participation
+    depends, materially, on the quality of our communication with it. The Gulf of
+    Envisioning is not only a usability problem to be designed around; it is a
+    diagnosis of our own communicative literacy. And the practice of bridging it
+    is itself a form of learning that compounds.
+  </p>
+
+  <p>
+    The evidence from my own logs runs in both directions. When I prompted with
+    discipline &mdash; coral’s three explicit learning hypotheses, or my detailed
+    reply to Claude’s two design questions in the pasta session &mdash; the design
+    choices were legibly mine. When I prompted at the wrong level of abstraction
+    &mdash; the gravity session’s stream of implementation requests with no
+    pedagogical anchor &mdash; Claude made choices I cannot fully account for, and
+    the simulation became a thing I built but cannot stand behind in the SimStep
+    sense. The gulf was not Claude’s failure to understand; it was my failure to
+    be understood.
+  </p>
+
+  <p>
+    This reframing matters because it suggests a different question than the one
+    usually asked of AI tools. The usual question is <em>what can AI do?</em> The
+    question my logs push me toward is <em>what kind of communicator does AI ask
+    me to become?</em> Subramonyam, Pea, and colleagues’ (2024) gulf framework,
+    read alongside Pea’s (1993) distributed cognition, lets me name AI as a
+    participant in a community of practice rather than an instrument acting on
+    it. But participants in a community of practice are not equally well-served
+    by all interlocutors. The communicative care &mdash; empathy, in the older and
+    harder sense of the word, the discipline of imagining what someone else needs
+    to be told &mdash; that we owe a human collaborator is the same care that
+    produces good prompts. I am wary of anthropomorphizing AI; I am not claiming
+    Claude has feelings to which empathy is owed. I am claiming that the
+    <em>practice</em> of empathy &mdash; articulating fuzzy intent, naming what one
+    means, checking whether one has been understood &mdash; is what good prompting
+    requires, and is the same practice good human collaboration requires.
+  </p>
+
+  <p>
+    Here the math education concept of <em>automaticity</em> (Anderson, 1982)
+    becomes useful. Repeated practice of articulation builds an automatic
+    disposition toward it. The drill-in-practice of bridging the Gulf of
+    Envisioning with Claude is, by the same mechanism, drill-in-practice of
+    communicative care more broadly. The artifact gets better. The communicator
+    does too. And the communicator carries that practice into every human
+    collaboration that follows.
+  </p>
+
+  <p>
+    This is the abundance argument: prompting AI well is not a transaction with a
+    tool. It is a rehearsal of the communicative practices a flourishing
+    community of practice requires. Treating the robot well is, in the most
+    practical sense available, a way of treating each other better.
+  </p>
+
+</section>
+
+<section>
+  <h2 id="references">References</h2>
+
+  <p>
+    Anderson, J. R. (1982). Acquisition of cognitive skill.
+    <em>Psychological Review, 89</em>(4), 369–406.
+    <a href="https://doi.org/10.1037/0033-295X.89.4.369">DOI</a>
+  </p>
+
+  <p>
+    Kaputa, Z., Rajaram, A., Feliciano, V., Lyu, Z., Agrawala, M., &amp;
+    Subramonyam, H. (2026). SimStep: Human-in-the-loop authoring of interactive
+    educational simulations through task-level abstractions. In
+    <em>Proceedings of the 2026 CHI Conference on Human Factors in Computing
+    Systems</em> (pp. 1–34). Association for Computing Machinery.
+    <a href="https://doi.org/10.1145/3772318.3791514">DOI</a>
+  </p>
+
+  <p>
+    Pea, R. D. (1993). Practices of distributed intelligence and designs for
+    education. In G. Salomon (Ed.),
+    <em>Distributed cognitions: Psychological and educational considerations</em>
+    (pp. 47–87). Cambridge University Press.
+  </p>
+
+  <p>
+    Subramonyam, H., Pea, R., Pondoc, C., Agrawala, M., &amp; Seifert, C.
+    (2024). Bridging the gulf of envisioning: Cognitive challenges in prompt
+    based interactions with LLMs. In <em>Proceedings of the 2024 CHI Conference
+    on Human Factors in Computing Systems</em> (pp. 1–19). Association for
+    Computing Machinery.
+    <a href="https://doi.org/10.1145/3613904.3642754">DOI</a>
+  </p>
+
+  <p><a href="{{ '/' | relative_url }}">&larr; Back to home</a></p>
+</section>

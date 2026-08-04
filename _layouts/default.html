@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site.title }}</title>
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/tufte.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
 </head>
 <body>
   <article>
-    <h1>{{ site.title }}</h1>
+    {% if page.title %}<p><a href="{{ '/' | relative_url }}">&larr; {{ site.title }}</a></p>{% endif %}
+    {% if page.home %}<h1>{{ site.title }}</h1>{% endif %}
     {{ content }}
     <section>
       <p class="footer">
